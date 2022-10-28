@@ -87,4 +87,42 @@ class Foo {
         // :: error: divide.by.zero
         int k = 1/z;
     }
+
+    public static void m() {
+        int one_the_hard_way = 1 + 0;
+        int y = 1 / one_the_hard_way;
+    }
+
+    public static void cm() {
+        int x = 2 - 1;
+        if(x == 1){
+            // :: error: divide.by.zero
+            x = 1/(x-1);
+        }
+    }
+
+    public static void cm3(int y) {
+        int x = 1;
+        if(y == 0){
+            x = y/1;
+        }
+        if(y != 0){
+            x = 1/y;
+        }
+    }
+
+    public static void test(int y) {
+        if(y < 0){
+            int x = 1/y;
+        }
+    }
+    public static void test2(int y) {
+        if (y < 0) {
+            int x = 1 / y;
+        }
+
+        if (y > 0) {
+            int x = 1 / y;
+        }
+    }
 }

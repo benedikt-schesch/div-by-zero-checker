@@ -71,7 +71,138 @@ public class DivByZeroTransfer extends CFTransfer {
             Comparison operator,
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
-        // TODO
+        if(lhs.equals(reflect(Bottom.class)) || rhs.equals(reflect(Bottom.class))){
+            return reflect(Bottom.class);
+        }
+        if(operator.equals(Comparison.EQ)){
+            return glb(lhs,rhs);
+        }
+        if(operator.equals(Comparison.LT)){ /** <  */
+            if(equal(rhs,reflect(Top.class))) return lhs;
+            if(equal(rhs,reflect(NonZero.class))) return lhs;
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Greater.class))) return top();
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(One.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Zero.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Greater.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(One.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Zero.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(Greater.class))) return reflect(One.class);
+            if(equal(lhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(Greater.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(One.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Greater.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(One.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Zero.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class))) return reflect(Less.class);
+        }
+        if(operator.equals(Comparison.GT)){ /** >  */
+            if(equal(rhs,reflect(Top.class))) return lhs;
+            if(equal(rhs,reflect(NonZero.class))) return lhs;
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(One.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Zero.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Less.class))) return reflect(NonZero.class);
+
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(One.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Zero.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(MinusOne.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Less.class))) return top();
+            if(equal(lhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(One.class))) return reflect(One.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);
+        }
+        if(operator.equals(Comparison.LE)){ /** <=  */
+            if(equal(rhs,reflect(Top.class))) return lhs;
+            if(equal(rhs,reflect(NonZero.class))) return lhs;
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Greater.class))) return top();
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(One.class))) return reflect(Top.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Zero.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);
+            
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Greater.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(One.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Zero.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(One.class))) return reflect(One.class);
+            if(equal(lhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(Greater.class))) return reflect(One.class);
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(One.class))) return reflect(One.class);
+            if(equal(lhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(Greater.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(One.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(Zero.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Greater.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(One.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Zero.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(MinusOne.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Greater.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(One.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Zero.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Less.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);
+        }
+        if(operator.equals(Comparison.GE)){ /** >=  */
+            if(equal(rhs,reflect(Top.class))) return lhs;
+            if(equal(rhs,reflect(NonZero.class))) return lhs;
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(One.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Zero.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(Top.class);
+            if(equal(lhs,reflect(NonZero.class)) && equal(rhs,reflect(Less.class))) return reflect(NonZero.class);
+
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(One.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Zero.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(MinusOne.class))) return top();
+            if(equal(lhs,reflect(Top.class)) && equal(rhs,reflect(Less.class))) return top();
+            if(equal(lhs,reflect(Greater.class))) return reflect(Greater.class);
+            if(equal(lhs,reflect(One.class))) return reflect(One.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Zero.class))) return reflect(Zero.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(MinusOne.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Greater.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(One.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Zero.class))) return reflect(Bottom.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(MinusOne.class))) return reflect(MinusOne.class);
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Less.class))) return reflect(Less.class);        
+        }
+        if(operator.equals(Comparison.NE)){ /** !=  */
+            if(equal(rhs,reflect(Zero.class))) return glb(lhs,reflect(NonZero.class));
+        }
         return lhs;
     }
 
@@ -93,7 +224,176 @@ public class DivByZeroTransfer extends CFTransfer {
             BinaryOperator operator,
             AnnotationMirror lhs,
             AnnotationMirror rhs) {
-        // TODO
+        if(lhs.equals(reflect(Bottom.class)) || rhs.equals(reflect(Bottom.class))){
+            return reflect(Bottom.class);
+        }
+        if(operator.equals(BinaryOperator.PLUS)){
+            if(equal(lhs,reflect(Zero.class))){
+                return rhs;
+            }
+            if(equal(rhs,reflect(Zero.class))){
+                return lhs;
+            }
+            if(equal(lhs,reflect(NonZero.class))){
+                return lhs;
+            }
+            if(equal(rhs,reflect(NonZero.class))){
+                return rhs;
+            }
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(One.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Zero.class);
+            }
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(Less.class))){
+                return top();
+            }
+            if(equal(lhs,reflect(One.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(One.class))){
+                return top();
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Greater.class))){
+                return top();
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Zero.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(One.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Less.class))){
+                return top();
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Greater.class);
+            }
+        }
+        if(operator.equals(BinaryOperator.MINUS)){
+            if (equal(rhs,reflect(Zero.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, rhs);
+            if (equal(rhs,reflect(Top.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, rhs);
+            if (equal(rhs,reflect(NonZero.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, rhs);
+            if (equal(rhs,reflect(One.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, reflect(MinusOne.class));
+            if (equal(rhs,reflect(MinusOne.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, reflect(One.class));
+            if (equal(rhs,reflect(Greater.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, reflect(Less.class));
+            if (equal(rhs,reflect(Less.class))) return arithmeticTransfer(BinaryOperator.PLUS, lhs, reflect(Greater.class));
+        }
+        if(operator.equals(BinaryOperator.TIMES)){
+            if(equal(lhs,reflect(Zero.class))){
+                return reflect(Zero.class);
+            }
+            if(equal(rhs,reflect(Zero.class))){
+                return reflect(Zero.class);
+            }
+            if(equal(lhs,reflect(NonZero.class))){
+                return reflect(NonZero.class);
+            }
+            if(equal(rhs,reflect(NonZero.class))){
+                return reflect(NonZero.class);
+            }
+            if(equal(lhs,reflect(One.class))){
+                return rhs;
+            }
+            if(equal(rhs,reflect(One.class))){
+                return lhs;
+            }
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(One.class);
+            }
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Greater.class);
+            }
+        }
+        if(operator.equals(BinaryOperator.DIVIDE)){
+            if(equal(lhs,reflect(Zero.class))){
+                return reflect(Zero.class);
+            }
+            if(equal(rhs,reflect(Zero.class))){
+                return reflect(Bottom.class);
+            }
+            if(equal(lhs,reflect(One.class))){
+                return rhs;
+            }
+            if(equal(rhs,reflect(One.class))){
+                return lhs;
+            }
+            if(equal(lhs,reflect(NonZero.class))){
+                return reflect(NonZero.class);
+            }
+            if(equal(rhs,reflect(NonZero.class))){
+                return reflect(NonZero.class);
+            }
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(One.class);
+            }
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(MinusOne.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Greater.class);
+            }
+            if(equal(lhs,reflect(Less.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(MinusOne.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Less.class))){
+                return reflect(Less.class);
+            }
+            if(equal(lhs,reflect(Greater.class)) && equal(rhs,reflect(Greater.class))){
+                return reflect(Greater.class);
+            }
+        }
+        if(operator.equals(BinaryOperator.MOD)){
+            if(equal(rhs,reflect(Zero.class))){
+                return reflect(Bottom.class);
+            }else if(equal(rhs,reflect(One.class))){
+                return reflect(Bottom.class);
+            }else if(equal(rhs,reflect(MinusOne.class))){
+                return reflect(Zero.class);
+            }else{
+                return lhs;
+            }
+        }
         return top();
     }
 

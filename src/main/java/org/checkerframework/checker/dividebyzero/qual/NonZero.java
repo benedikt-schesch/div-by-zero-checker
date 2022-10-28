@@ -6,8 +6,7 @@ import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 
 
-// Top
-@DefaultQualifierInHierarchy
-@SubtypeOf({})
+// != 0
+@SubtypeOf({Top.class})
 @Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
-public @interface Top { }
+public @interface NonZero { }
